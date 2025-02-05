@@ -39,7 +39,7 @@
                     </div>
 
                     <div>
-                        <label for="password_confirmation" class="block text-sm/6 font-medium text-gray-900">Password</label>
+                        <label for="password_confirmation" class="block text-sm/6 font-medium text-gray-900">Password Confirmation</label>
                         <div class="mt-2">
                             <input type="password" name="password_confirmation" id="password_confirmation" autocomplete="current-password"
                                    required

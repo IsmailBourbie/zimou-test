@@ -38,9 +38,6 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetPasswordView(fn(Request $request) => view('auth.reset-password', ['request' => $request]));
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
-//        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
-//        Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
-
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 

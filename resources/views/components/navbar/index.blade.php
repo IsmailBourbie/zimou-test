@@ -12,16 +12,19 @@
                 <h3 class="px-2 font-bold">{{$user->name}}</h3>
                 <form action="{{route('logout')}}" method="POST">
                     @csrf
-                    <button type="submit" class="px-4 py-1.5 bg-slate-700 text-slate-50 rounded-lg hover:bg-slate-900 cursor-pointer">Logout</button>
+                    <button type="submit"
+                            class="px-4 py-1.5 bg-slate-700 text-slate-50 rounded-lg hover:bg-slate-900 cursor-pointer">
+                        Logout
+                    </button>
                 </form>
             @else
-                <a href="{{route('register')}}" type="button"
-                   class="text-slate-600 hover:text-slate-950 hover:underline font-bold rounded-lg text-sm mr-2 px-4 py-2 text-center">
-                    Register
-                </a>
                 <a href="{{route('login')}}" type="button"
-                   class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm mr-2 px-4 py-2 text-center">
+                   class="text-slate-600 hover:text-slate-950 hover:underline font-bold rounded-lg text-sm mr-2 px-4 py-2 text-center">
                     Login
+                </a>
+                <a href="{{route('register')}}" type="button"
+                   class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm mr-2 px-4 py-2 text-center">
+                    Register
                 </a>
             @endif
             <button x-on:click="open = !open" type="button"
