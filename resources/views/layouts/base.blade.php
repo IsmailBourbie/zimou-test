@@ -18,7 +18,7 @@
 
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-slate-50">
             <!-- Navigation -->
             @php
                 $user = auth()->user();
@@ -27,7 +27,7 @@
             <x-navbar :user="$user"/>
 
             <!-- Page Content -->
-            <main>
+            <main class="pt-16">
                 {{ $slot }}
             </main>
         </div>
