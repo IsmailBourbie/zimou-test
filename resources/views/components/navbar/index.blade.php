@@ -9,6 +9,7 @@
         </a>
         <div class="flex items-center md:order-2 md:space-x-0">
             @if($user)
+                <h3 class="px-2 font-bold">{{$user->name}}</h3>
                 <form action="{{route('logout')}}" method="POST">
                     @csrf
                     <button type="submit" class="px-4 py-1.5 bg-slate-700 text-slate-50 rounded-lg hover:bg-slate-900 cursor-pointer">Logout</button>
