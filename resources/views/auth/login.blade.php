@@ -6,7 +6,7 @@
                     account</h2>
             </div>
             <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form class="space-y-6" action="#" method="POST">
+                <form class="space-y-6" action="{{route('login.store')}}" method="POST">
                     @csrf
                     <div>
                         <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
@@ -23,7 +23,7 @@
                         <div class="flex items-center justify-between">
                             <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
                             <div class="text-sm">
-                                <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot
+                                <a href="{{route('password.request')}}" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot
                                     password?</a>
                             </div>
                         </div>
