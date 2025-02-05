@@ -9,7 +9,10 @@
         </a>
         <div class="flex items-center md:order-2 md:space-x-0">
             @if($user)
-                <a href="#">Logout</a>
+                <form action="{{route('logout')}}" method="POST">
+                    @csrf
+                    <button type="submit" class="px-4 py-1.5 bg-slate-700 text-slate-50 rounded-lg hover:bg-slate-900 cursor-pointer">Logout</button>
+                </form>
             @else
                 <a href="{{route('register')}}" type="button"
                    class="text-slate-600 hover:text-slate-950 hover:underline font-bold rounded-lg text-sm mr-2 px-4 py-2 text-center">
