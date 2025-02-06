@@ -13,36 +13,30 @@ class StoreSeeder extends Seeder
 {
     public function run(): void
     {
+        $countPackages = 0;
+        $deliveryTypes = DeliveryType::factory()->count(3)->createQuietly()->pluck('id')->all();
+        $statuses = PackageStatus::factory()->count(3)->createQuietly()->pluck('id')->all();
 
-        $deliveryTypes = DeliveryType::factory()->count(3)->createQuietly();
-        $statuses = PackageStatus::factory()->count(3)->createQuietly();
-
-        $stores = Store::factory()->count(500)->raw();
-
-        $storesChunks = array_chunk($stores, 100);
+        $stores = Store::factory()->count(5000)->raw();
+        $storesChunks = array_chunk($stores, 1000);
         foreach ($storesChunks as $chunk) {
             DB::table('stores')->insert($chunk);
         }
 
         $storesIds = DB::table('stores')->pluck('id');
         $packages = [];
-        foreach ($storesIds as $index => $storeId) {
-            for ($j = 1; $j <= 100; $j++) {
-                $package = Package::factory()->raw([
-                    'store_id' => $storeId,
-                    'status_id' => $statuses->random()->id,
-                    'delivery_type_id' => $deliveryTypes->random()->id,
-                ]);
-                $packages[] = $package;
-                if ($j * ($index + 1) % 2000 == 0) { // 1000 => 114,465 ms
-                    DB::enableQueryLog();
-                    DB::table('packages')->insert($packages);
-                    dump(count(DB::getQueryLog()));
-
-                    $packages = [];
-                }
+        foreach ($storesIds as $storeId) {
+            $packages = array_merge(Package::factory()->count(100)->raw([
+                'store_id' => $storeId,
+                'status_id' => $statuses[array_rand($statuses)],
+                'delivery_type_id' => $deliveryTypes[array_rand($deliveryTypes)],
+            ]), $packages);
+            if (count($packages) >= 2000) {
+                $countPackages += 2000;
+                dump('Packages: '.$countPackages.' /500,000');
+                DB::table('packages')->insert($packages);
+                $packages = [];
             }
-
         }
 
     }
