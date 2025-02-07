@@ -17,9 +17,7 @@ class StoreSeeder extends Seeder
         $deliveryTypes = DeliveryType::factory()->count(3)->createQuietly()->pluck('id')->all();
         $statuses = PackageStatus::factory()->count(3)->createQuietly()->pluck('id')->all();
 
-        $stores = Store::factory()->count(5000)->raw();
-        $storesChunks = array_chunk($stores, 1000);
-        foreach ($storesChunks as $chunk) {
+        foreach (array_chunk(Store::factory()->count(5000)->raw(), 1000) as $chunk) {
             DB::table('stores')->insert($chunk);
         }
 
@@ -31,8 +29,8 @@ class StoreSeeder extends Seeder
                 'status_id' => $statuses[array_rand($statuses)],
                 'delivery_type_id' => $deliveryTypes[array_rand($deliveryTypes)],
             ]), $packages);
-            if (count($packages) >= 2000) {
-                $countPackages += 2000;
+            if (count($packages) >= 3000) {
+                $countPackages += 3000;
                 dump('Packages: '.$countPackages.' /500,000');
                 DB::table('packages')->insert($packages);
                 $packages = [];

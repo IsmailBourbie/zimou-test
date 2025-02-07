@@ -12,12 +12,12 @@ class StoreFactory extends Factory
     {
         return [
             'code' => $this->faker->bothify('##########'),
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
-            'phones' => $this->faker->phoneNumber,
-            'company_name' => $this->faker->company,
-            'capital' => $this->faker->city,
-            'address' => $this->faker->address,
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'phones' => $this->faker->phoneNumber(),
+            'company_name' => $this->faker->company(),
+            'capital' => $this->faker->city(),
+            'address' => $this->faker->address(),
             'register_commerce_number' => $this->faker->numerify('########'),
             'nif' => $this->faker->numerify('################'),
         ];
