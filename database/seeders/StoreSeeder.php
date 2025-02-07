@@ -13,25 +13,23 @@ class StoreSeeder extends Seeder
 {
     public function run(): void
     {
-        $countPackages = 0;
-        $deliveryTypes = DeliveryType::factory()->count(3)->createQuietly()->pluck('id')->all();
-        $statuses = PackageStatus::factory()->count(3)->createQuietly()->pluck('id')->all();
-
         foreach (array_chunk(Store::factory()->count(5000)->raw(), 1000) as $chunk) {
             DB::table('stores')->insert($chunk);
+            unset($chunk);
+            gc_collect_cycles();
         }
 
-        $storesIds = DB::table('stores')->pluck('id');
+        $deliveryTypes = DB::table('delivery_types')->pluck('id')->all();
+        $statuses = DB::table('package_statuses')->pluck('id')->all();
+
         $packages = [];
-        foreach ($storesIds as $storeId) {
-            $packages = array_merge(Package::factory()->count(100)->raw([
+        foreach (DB::table('stores')->pluck('id') as $storeId) {
+            array_push($packages, ...Package::factory()->count(100)->raw([
                 'store_id' => $storeId,
                 'status_id' => $statuses[array_rand($statuses)],
                 'delivery_type_id' => $deliveryTypes[array_rand($deliveryTypes)],
-            ]), $packages);
-            if (count($packages) >= 3000) {
-                $countPackages += 3000;
-                dump('Packages: '.$countPackages.' /500,000');
+            ]));
+            if (count($packages) >= 2000) {
                 DB::table('packages')->insert($packages);
                 $packages = [];
             }
