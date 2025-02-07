@@ -23,6 +23,7 @@ class StoreSeeder extends Seeder
         $statuses = DB::table('package_statuses')->pluck('id')->all();
 
         $packages = [];
+        $total = 0;
         foreach (DB::table('stores')->pluck('id') as $storeId) {
             array_push($packages, ...Package::factory()->count(100)->raw([
                 'store_id' => $storeId,
@@ -30,6 +31,8 @@ class StoreSeeder extends Seeder
                 'delivery_type_id' => $deliveryTypes[array_rand($deliveryTypes)],
             ]));
             if (count($packages) >= 2000) {
+                $total += count($packages);
+                dump($total.'/500000');
                 DB::table('packages')->insert($packages);
                 $packages = [];
             }
