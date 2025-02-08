@@ -39,7 +39,7 @@
         </div>
 
         <div class="px-4">
-            {{ $packages->links('pagination::tailwind') }}
+            {{ $packages->links() }}
         </div>
     </div>
 @endcomponent
