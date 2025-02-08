@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Commune;
+use App\Models\Wilaya;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CommuneFactory extends Factory
@@ -13,7 +14,7 @@ class CommuneFactory extends Factory
     {
         return [
             'name' => $this->faker->streetName(),
-            'wilaya_id' => '1', // TODO: update with related model
+            'wilaya_id' => fn() => Wilaya::factory(), // TODO: update with related model
         ];
     }
 }
