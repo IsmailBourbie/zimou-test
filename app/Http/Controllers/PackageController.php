@@ -8,6 +8,6 @@ class PackageController extends Controller
 {
     public function index()
     {
-        return view('packages.index', ['packages' => Package::all()]);
+        return view('packages.index', ['packages' => Package::paginate(10)]);
     }
 }

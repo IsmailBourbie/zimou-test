@@ -24,5 +24,17 @@ class PackageControllerTest extends TestCase
             ->assertSeeText($packages->pluck('name')->all());
 
 
-   }
+    }
+
+    #[Test]
+    public function it_render_packages_with_paginate(): void
+    {
+        $packages = Package::factory()->count(11)->create();
+
+        $response = $this->get(route('packages.index'));
+
+        $response->assertSeeText([$packages->get(0)->name, $packages->get(9)->name]);
+        $response->assertDontSeeText($packages->get(10)->name);
+
+    }
 }
