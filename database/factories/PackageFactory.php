@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Commune;
 use App\Models\DeliveryType;
 use App\Models\Package;
 use App\Models\PackageStatus;
@@ -35,7 +36,7 @@ class PackageFactory extends Factory
         return [
             'uuid' => (string) Str::uuid(),
             'tracking_code' => $this->faker->unique()->lexify('??????????'),
-            'commune_id' => '1', // TODO: update that with related model
+            'commune_id' => fn() => Commune::factory(), // TODO: update that with related model
             'delivery_type_id' => fn() => DeliveryType::factory(),
             'status_id' => fn() => PackageStatus::factory(),
             'store_id' => fn() => Store::factory(),

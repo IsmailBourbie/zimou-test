@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Commune;
 use App\Models\DeliveryType;
 use App\Models\Package;
 use App\Models\PackageStatus;
@@ -44,6 +45,17 @@ class PackageTest extends TestCase
 
         $this->assertInstanceOf(Store::class, $package->store);
         $this->assertTrue($store->is($package->store));
+
+    }
+
+    #[Test]
+    public function it_belongs_to_commune(): void
+    {
+        $commune = Commune::factory()->create();
+        $package = Package::factory()->for($commune)->create();
+
+        $this->assertInstanceOf(Commune::class, $package->commune);
+        $this->assertTrue($commune->is($package->commune));
 
     }
 }
