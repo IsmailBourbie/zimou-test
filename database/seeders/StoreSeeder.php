@@ -19,16 +19,18 @@ class StoreSeeder extends Seeder
             gc_collect_cycles();
         }
 
-        $deliveryTypes = DB::table('delivery_types')->pluck('id')->all();
-        $statuses = DB::table('package_statuses')->pluck('id')->all();
+        $deliveryTypesIds = DB::table('delivery_types')->pluck('id')->all();
+        $statusesIds = DB::table('package_statuses')->pluck('id')->all();
+        $communesIds = DB::table('communes')->pluck('id')->all();
 
         $packages = [];
         $total = 0;
         foreach (DB::table('stores')->pluck('id') as $storeId) {
             array_push($packages, ...Package::factory()->count(100)->raw([
                 'store_id' => $storeId,
-                'status_id' => $statuses[array_rand($statuses)],
-                'delivery_type_id' => $deliveryTypes[array_rand($deliveryTypes)],
+                'commune_id' => $communesIds[array_rand($communesIds)],
+                'status_id' => $statusesIds[array_rand($statusesIds)],
+                'delivery_type_id' => $deliveryTypesIds[array_rand($deliveryTypesIds)],
             ]));
             if (count($packages) >= 2000) {
                 $total += count($packages);
