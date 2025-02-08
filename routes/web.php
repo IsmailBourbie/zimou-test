@@ -7,4 +7,4 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
+Route::middleware(['auth'])->get('/packages', [PackageController::class, 'index'])->name('packages.index');
