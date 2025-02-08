@@ -19,17 +19,17 @@ class PackageFactory extends Factory
         $client_first_name = $this->faker->firstName();
         $client_last_name = $this->faker->lastName();
 
-        $free_delivery = rand(0, 1);
+        $free_delivery = mt_rand(0, 1);
 
         if ($free_delivery) {
             $delivery_price = 0;
             $partner_delivery_price = 0;
         } else {
-            $delivery_price = rand(100, 1000);
-            $partner_delivery_price = rand(100, 500);
+            $delivery_price = mt_rand(100, 1000);
+            $partner_delivery_price = mt_rand(100, 500);
         }
 
-        $price = rand(100, 10_000);
+        $price = mt_rand(100, 10_000);
         $total_price = $price + $delivery_price + $partner_delivery_price;
 
         return [
@@ -43,7 +43,7 @@ class PackageFactory extends Factory
             'name' => $client_first_name.' '.$client_last_name,
             'client_first_name' => $client_first_name,
             'client_last_name' => $client_last_name,
-            'client_phone' => 0 .rand(550, 780).rand(1000000, 9999999),
+            'client_phone' => 0 .mt_rand(550, 780).mt_rand(1000000, 9999999),
             'free_delivery' => (bool) $free_delivery,
             'delivery_price' => $delivery_price,
             'partner_delivery_price' => $partner_delivery_price,
