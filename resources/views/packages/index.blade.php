@@ -1,6 +1,9 @@
 @component('layouts.base', ['title' => 'Packages'])
     <div class="container mx-auto mt-10 space-y-8">
-        <h2 class="text-2xl">ALl Packages</h2>
+        <div class="flex items-center justify-between">
+            <h2 class="text-2xl">ALl Packages</h2>
+            <a href="#" class="px-3 py-1.5 border border-blue-700 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Export Packages</a>
+        </div>
 
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
