@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\Package;
+use App\Models\User;
+use App\Notifications\PackagesExportReady;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Query\Builder;
@@ -21,7 +23,7 @@ class PackagesExport implements ShouldQueue, ShouldBeUnique
     /**
      * Create a new job instance.
      */
-    public function __construct(public readonly string $filename)
+    public function __construct(protected readonly User $user, public readonly string $filename)
     {
         //
     }
@@ -76,6 +78,7 @@ class PackagesExport implements ShouldQueue, ShouldBeUnique
 
         $writer->close();
 
+        $this->user->notify(new PackagesExportReady($this->filename));
 
     }
 }

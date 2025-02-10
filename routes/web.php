@@ -12,3 +12,8 @@ Route::middleware(['auth'])->get('/packages', [PackageController::class, 'index'
 
 Route::get('/packages/export', PackagesExportController::class)->name('packages.export');
 
+Route::get('/packages/exports/download/{filename}', [PackagesExportController::class, 'download'])
+    ->name('exports.download')
+    ->middleware(['signed', 'auth']);
+
+
