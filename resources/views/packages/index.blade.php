@@ -5,6 +5,11 @@
             <a href="{{route('packages.export')}}" class="px-3 py-1.5 border border-blue-700 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Export Packages</a>
         </div>
 
+        @if(session('status'))
+            <div class="bg-green-100 w-6/12 mx-auto border border-green-300 text-green-700 font-medium tracking-wide px-4 py-3 rounded text-center mt-5">
+                {{session('status')}}
+            </div>
+        @endif
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                 <thead class="ltr:text-left rtl:text-right">

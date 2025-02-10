@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Package;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -22,7 +23,7 @@ class PackageControllerTest extends TestCase
     {
         $packages = Package::factory()->count(3)->create();
 
-        $response = $this->get(route('packages.index'));
+        $response = $this->actingAs(User::factory()->createOneQuietly())->get(route('packages.index'));
 
         $response->assertSuccessful()
             ->assertViewIs('packages.index')
@@ -37,7 +38,7 @@ class PackageControllerTest extends TestCase
     {
         $packages = Package::factory()->count(11)->create();
 
-        $response = $this->get(route('packages.index'));
+        $response = $this->actingAs(User::factory()->createOneQuietly())->get(route('packages.index'));
 
         $response->assertSeeText([$packages->get(0)->name, $packages->get(9)->name]);
         $response->assertDontSeeText($packages->get(10)->name);
