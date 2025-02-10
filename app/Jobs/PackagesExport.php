@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Package;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 
-class PackagesExport implements ShouldQueue
+class PackagesExport implements ShouldQueue, ShouldBeUnique
 {
     use Queueable;
 
@@ -30,13 +31,11 @@ class PackagesExport implements ShouldQueue
      */
     public function handle(): void
     {
-        $start = memory_get_usage();
         $path = storage_path('app/exports/packages/'.$this->filename);
-        $headers = [
+        $writer = SimpleExcelWriter::create($path)->addHeader([
             'Tracking Code', 'Store', 'Package name', 'Status',
             'Client', 'Phone', 'Wilaya', 'Commune', 'Delivery Type',
-        ];
-        $writer = SimpleExcelWriter::create($path)->addHeader($headers);
+        ]);
 
         DB::table('packages')
             ->join('stores', 'packages.store_id', '=', 'stores.id')
@@ -60,7 +59,8 @@ class PackagesExport implements ShouldQueue
                 'wilayas.name as wilaya',
                 'delivery_types.name as delivery_type',
                 'package_statuses.name as status'
-            )->orderBy('id')->cursor()->each(function ($package) use ($writer) {
+            )->orderBy('id')->cursor()
+            ->each(function ($package) use ($writer) {
                 $writer->addRow([
                     $package->tracking_code,
                     $package->store,
@@ -73,9 +73,6 @@ class PackagesExport implements ShouldQueue
                     $package->delivery_type,
                 ]);
             });
-        $end = memory_get_usage();
-
-        Log::info('memory: '. $end - $start);
 
         $writer->close();
 
