@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\PackagesExportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -8,3 +9,6 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::middleware(['auth'])->get('/packages', [PackageController::class, 'index'])->name('packages.index');
+
+Route::get('/packages/export', PackagesExportController::class)->name('packages.export');
+
