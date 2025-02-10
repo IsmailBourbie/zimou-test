@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\PackagesExportController;
+use App\Http\Controllers\PackagesExportDownloadController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -12,7 +13,7 @@ Route::middleware(['auth'])->get('/packages', [PackageController::class, 'index'
 
 Route::get('/packages/export', PackagesExportController::class)->name('packages.export');
 
-Route::get('/packages/exports/download/{filename}', [PackagesExportController::class, 'download'])
+Route::get('/packages/exports/download/{filename}', PackagesExportDownloadController::class)
     ->name('exports.download')
     ->middleware(['signed', 'auth']);
 
