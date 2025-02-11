@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Package;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class PackageController extends Controller
@@ -20,5 +21,19 @@ class PackageController extends Controller
         )->cursorPaginate(10);
 
         return view('packages.index', compact('packages'));
+    }
+
+    public function create()
+    {
+        return view('packages.create');
+    }
+
+    public function store(Request $request)
+    {
+
+        $attrs = $request->all();
+        Package::create($attrs);
+
+        return redirect()->route('packages.index');
     }
 }

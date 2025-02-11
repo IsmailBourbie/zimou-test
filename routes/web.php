@@ -10,6 +10,8 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::middleware(['auth'])->get('/packages', [PackageController::class, 'index'])->name('packages.index');
+Route::middleware(['auth'])->get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
+Route::middleware(['auth'])->post('/packages', [PackageController::class, 'store'])->name('packages.store');
 
 Route::get('/packages/export', PackagesExportController::class)->name('packages.export');
 
