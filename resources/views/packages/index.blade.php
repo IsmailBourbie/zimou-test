@@ -2,7 +2,11 @@
     <div class="container mx-auto mt-10 space-y-8">
         <div class="flex items-center justify-between">
             <h2 class="text-2xl">ALl Packages</h2>
+            <div>
+            <a href="{{route('packages.create')}}" class="px-3 py-1.5 border border-slate-700 bg-slate-600 hover:bg-slate-700 text-white rounded-lg">Create Package</a>
             <a href="{{route('packages.export')}}" class="px-3 py-1.5 border border-blue-700 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Export Packages</a>
+
+            </div>
         </div>
 
         @if(session('status'))
