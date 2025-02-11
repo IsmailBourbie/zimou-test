@@ -9,6 +9,7 @@
         "laravel/fortify": "^1.25",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
+        "livewire/livewire": "^3.5",
         "spatie/simple-excel": "^3.7"
     },
     "require-dev": {

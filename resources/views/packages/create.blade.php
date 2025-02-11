@@ -11,8 +11,7 @@
 
                     <div class="mb-6">
                         <label class="block mb-2 text-sm font-medium text-gray-900">
-                            <input type="text" name="store_id" value="{{old('store_id')}}" placeholder="Select a store"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <livewire:packages.store-input/>
                         </label>
                         @error('store_id')
                         <em class="text-sm text-red-600 font-medium"> {{$message}}</em>
