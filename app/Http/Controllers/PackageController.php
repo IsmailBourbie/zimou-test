@@ -47,6 +47,7 @@ class PackageController extends Controller
             'client_phone' => ['required', 'string', 'max:255'],
             'client_phone2' => ['nullable', 'string', 'max:255'],
             'commune_id' => ['required', Rule::exists(Commune::class, 'id')],
+            'status_id' => ['required', Rule::exists(PackageStatus::class, 'id')],
             'address' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
             'delivery_price' => ['required', 'numeric', 'min:0'],
@@ -58,17 +59,15 @@ class PackageController extends Controller
             'cod_to_pay' => ['required', 'numeric', 'min:0'],
             'commission' => ['required', 'numeric', 'min:0'],
             'weight' => ['required', 'numeric', 'min:0'],
-            'can_be_opened' => ['nullable', 'boolean'],
+            'extra_weight_price' => ['required', 'numeric', 'min:0'],
+            'free_delivery' => ['required', 'boolean'],
+            'can_be_opened' => ['required', 'boolean'],
         ]);
 
         $attrs['uuid'] = Str::uuid()->toString();
         $attrs['tracking_code'] = 'zm-'. Str::random(8);
-        $attrs['free_delivery'] = false;
-        $attrs['delivery_price'] = 500;
-        $attrs['price_to_pay'] = 2000;
-        $attrs['total_price'] = 4000;
-        $attrs['status_id'] = PackageStatus::first()->id;
 
+        dd($attrs);
         Package::create($attrs);
 
         return redirect()->route('packages.index');

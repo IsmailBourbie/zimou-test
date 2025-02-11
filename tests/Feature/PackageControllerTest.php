@@ -74,6 +74,7 @@ class PackageControllerTest extends TestCase
             'delivery_type_id' => $deliveryType->id,
             'commune_id' => $commune->id,
             'weight' => '10',
+            'extra_weight_price' => 200,
             'packaging_price' => 1000,
             'free_delivery' => false,
             'delivery_price' => 500,
@@ -84,6 +85,7 @@ class PackageControllerTest extends TestCase
             'cod_to_pay' => 100,
             'partner_cod_price' => 100,
             'commission' => 100,
+            'can_be_opened' => false,
         ]);
 
         $response = $this->actingAs(User::factory()->createOneQuietly())->post(route('packages.store'), $package);
