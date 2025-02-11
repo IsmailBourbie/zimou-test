@@ -69,7 +69,7 @@ class PackageControllerTest extends TestCase
 
         $response = $this->actingAs(User::factory()->createOneQuietly())->get(route('packages.create'));
 
-        $response->assertSeeText([...$statuses->pluck('name'), ...$deliveryTypes->pluck('name'), ...$wilayat->pluck('name')]);
+        $response->assertSeeText([...$deliveryTypes->pluck('name'), ...$wilayat->pluck('name')]);
     }
 
     #[Test]

@@ -7,7 +7,6 @@ use App\Models\DeliveryType;
 use App\Models\Package;
 use App\Models\PackageStatus;
 use App\Models\Store;
-use App\Models\Wilaya;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -35,8 +34,8 @@ class PackageController extends Controller
     {
         $statuses = Cache::remember('statuses', 3600, fn() => PackageStatus::all());
         $deliveryTypes = Cache::remember('deliveryTypes', 3600, fn() => DeliveryType::all());
-        $wilayat = Cache::remember('wilayat', 3600, fn() => Wilaya::all());
-        return view('packages.create', compact('statuses', 'deliveryTypes', 'wilayat'));
+
+        return view('packages.create', compact('statuses', 'deliveryTypes'));
     }
 
     public function store(Request $request)
@@ -68,9 +67,13 @@ class PackageController extends Controller
         ]);
 
         $attrs['uuid'] = Str::uuid()->toString();
-        $attrs['tracking_code'] = 'zm-'. Str::random(8);
+        $attrs['tracking_code'] = 'zm-'.Str::random(6);
+        $attrs['status_id'] = PackageStatus::first()->id; // Get the default or pending status
 
-        dd($attrs);
+
+        $attrs['total_price'] = 2000; // Calculate the price depending on business logic
+        $attrs['price_to_pay'] = 20000; // Calculate the price depending on business logic
+
         Package::create($attrs);
 
         return redirect()->route('packages.index');
