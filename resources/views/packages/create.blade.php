@@ -102,8 +102,13 @@
                     <div class="flex gap-2">
                         <div class="grow">
                             <label class="block mb-2 text-sm font-medium text-gray-900">
-                                <input type="text" placeholder="Wilaya*"
-                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <select
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    <option value="" disabled selected>Select wilaya</option>
+                                    @foreach($wilayat as $wilaya)
+                                        <option value="{{$wilaya->id}}">{{$wilaya->name}}</option>
+                                    @endforeach
+                                </select>
                             </label>
                         </div>
                         <div class="grow">
@@ -176,10 +181,11 @@
                         </div>
                         <div class="grow">
                             <label class="block mb-2 text-sm font-medium text-gray-900">
+                                <input type="text" name="partner_delivery_price"
+                                       value="{{old('partner_delivery_price')}}"
+                                       placeholder="Partner delivery price"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             </label>
-                            <input type="text" name="partner_delivery_price" value="{{old('partner_delivery_price')}}"
-                                   placeholder="Partner delivery price"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             @error('partner_delivery_price')
                             <em class="text-sm text-red-600 font-medium"> {{$message}}</em>
                             @enderror
@@ -238,11 +244,15 @@
                     <h3 class="text-2xl font-bold pb-4">Delivery Details</h3>
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900">
-                            <input type="text" name="status_id" value="{{old('status_id')}}"
-                                   placeholder="Select a status"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <select name="delivery_type_id"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option value="" disabled selected>Select Delivery type</option>
+                                @foreach($deliveryTypes as $deliveryType)
+                                    <option value="{{$deliveryType->id}}">{{$deliveryType->name}}</option>
+                                @endforeach
+                            </select>
                         </label>
-                        @error('status_id')
+                        @error('delivery_type_id')
                         <em class="text-sm text-red-600 font-medium"> {{$message}}</em>
                         @enderror
                     </div>
@@ -250,11 +260,11 @@
                     <div>
                         <div class="flex items-center gap-8">
                             <label class="block mb-2 text-lg font-medium text-gray-900">
-                                <input type="radio" name="free_delivery" value="true">
+                                <input type="radio" name="free_delivery" value="1">
                                 Free Delivery
                             </label>
                             <label class="block mb-2 text-lg font-medium text-gray-900">
-                                <input type="radio" name="free_delivery" value="false">
+                                <input type="radio" name="free_delivery" value="0">
                                 Paid Delivery
                             </label>
                         </div>
@@ -266,11 +276,11 @@
                     <div>
                         <div class="flex items-center gap-8">
                             <label class="block mb-2 text-lg font-medium text-gray-900">
-                                <input type="radio" name="can_be_opened" value="true">
+                                <input type="radio" name="can_be_opened" value="1">
                                 Can be Opened
                             </label>
                             <label class="block mb-2 text-lg font-medium text-gray-900">
-                                <input type="radio" name="can_be_opened" value="false">
+                                <input type="radio" name="can_be_opened" value="0">
                                 Can't be Opened
                             </label>
                         </div>

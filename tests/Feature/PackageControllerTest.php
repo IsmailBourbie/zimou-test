@@ -8,6 +8,7 @@ use App\Models\Package;
 use App\Models\PackageStatus;
 use App\Models\Store;
 use App\Models\User;
+use App\Models\Wilaya;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -57,6 +58,18 @@ class PackageControllerTest extends TestCase
         $response = $this->actingAs(User::factory()->createOneQuietly())->get(route('packages.create'));
 
         $response->assertSuccessful();
+    }
+
+    #[Test]
+    public function it_render_create_page_with_needed_data(): void
+    {
+        $statuses = PackageStatus::factory()->count(2)->createQuietly();
+        $deliveryTypes = DeliveryType::factory()->count(2)->createQuietly();
+        $wilayat = Wilaya::factory()->count(2)->createQuietly();
+
+        $response = $this->actingAs(User::factory()->createOneQuietly())->get(route('packages.create'));
+
+        $response->assertSeeText([...$statuses->pluck('name'), ...$deliveryTypes->pluck('name'), ...$wilayat->pluck('name')]);
     }
 
     #[Test]

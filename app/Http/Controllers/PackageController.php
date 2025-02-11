@@ -9,6 +9,7 @@ use App\Models\PackageStatus;
 use App\Models\Store;
 use App\Models\Wilaya;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -32,7 +33,10 @@ class PackageController extends Controller
 
     public function create()
     {
-        return view('packages.create');
+        $statuses = Cache::remember('statuses', 3600, fn() => PackageStatus::all());
+        $deliveryTypes = Cache::remember('deliveryTypes', 3600, fn() => DeliveryType::all());
+        $wilayat = Cache::remember('wilayat', 3600, fn() => Wilaya::all());
+        return view('packages.create', compact('statuses', 'deliveryTypes', 'wilayat'));
     }
 
     public function store(Request $request)
@@ -47,7 +51,6 @@ class PackageController extends Controller
             'client_phone' => ['required', 'string', 'max:255'],
             'client_phone2' => ['nullable', 'string', 'max:255'],
             'commune_id' => ['required', Rule::exists(Commune::class, 'id')],
-            'status_id' => ['required', Rule::exists(PackageStatus::class, 'id')],
             'address' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
             'delivery_price' => ['required', 'numeric', 'min:0'],
