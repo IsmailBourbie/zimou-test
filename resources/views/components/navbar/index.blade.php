@@ -44,6 +44,11 @@
                 <li>
                     <x-navbar.link label="Home" route="welcome"/>
                 </li>
+                @auth
+                    <li>
+                        <x-navbar.link label="Packages" route="packages.index"/>
+                    </li>
+                @endauth
             </ul>
         </div>
     </div>
