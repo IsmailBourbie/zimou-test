@@ -9,6 +9,8 @@ use App\Models\PackageStatus;
 use App\Models\Store;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -71,12 +73,74 @@ class PackageControllerTest extends TestCase
             'status_id' => $status->id,
             'delivery_type_id' => $deliveryType->id,
             'commune_id' => $commune->id,
+            'weight' => '10',
         ]);
 
         $response = $this->actingAs(User::factory()->createOneQuietly())->post(route('packages.store'), $package);
 
         $response->assertRedirect(route('packages.index'));
-        $this->assertDatabaseHas('packages', $package);
+        $this->assertDatabaseHas('packages', [
+            'name' => $package['name'],
+            'client_first_name' => $package['client_first_name'],
+        ]);
 
+    }
+
+    #[Test]
+    #[DataProvider('validInputDataProvider')]
+    public function it_require_valid_data_to_store_a_package($input, $inputVal): void
+    {
+        $package = Package::factory()->raw([$input => $inputVal]);
+
+        $response = $this->actingAs(User::factory()->createOneQuietly())->post(route('packages.store'), $package);
+
+        $response->assertSessionHasErrors($input);
+    }
+
+    public static function validInputDataProvider(): array
+    {
+        return [
+            'store id is required' => ['store_id', ''],
+            'store id must exists' => ['store_id', 321],
+
+            'delivery type id is required' => ['delivery_type_id', ''],
+            'delivery type id must exists' => ['delivery_type_id', 321],
+
+            'commune id is required' => ['commune_id', ''],
+            'commune id must exists' => ['commune_id', 321],
+
+            'name must be string' => ['name', 1234],
+            'name cant be more than 255' => ['name', Str::random(256)],
+
+            'client_first_name is required' => ['client_first_name', null],
+            'client_first_name must be string' => ['client_first_name', 1234],
+            'client_first_name must be less than 255' => ['client_first_name', Str::random(256)],
+
+            'client_last_name is required' => ['client_last_name', null],
+            'client_last_name must be string' => ['client_last_name', 1234],
+            'client_last_name must be less than 255' => ['client_last_name', Str::random(256)],
+
+            'client_phone is required' => ['client_phone', null],
+            'client_phone must be string' => ['client_phone', 1234],
+            'client_phone2 must be string' => ['client_phone', 1234],
+
+
+            'address is required' => ['address', null],
+            'address must be string' => ['address', 1234],
+            'address must be less than 255' => ['address', Str::random(256)],
+
+            'price is required' => ['price', null],
+            'price must be number' => ['price', 'hello'],
+            'price cant be negative' => ['price', -1],
+
+
+            'weight is required' => ['weight', null],
+            'weight must be number' => ['weight', 'hello'],
+            'weight cant be negative' => ['weight', -1],
+
+            'can_be_opened must be boolean' => ['can_be_opened', 'test'],
+
+
+        ];
     }
 }
