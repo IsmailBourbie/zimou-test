@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\PackagesExport;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PackagesExportController extends Controller
 {
     public function __invoke()
     {
+        if (!Storage::exists('exports/packages')) {
+            Storage::makeDirectory('exports/packages');
+        }
         $filename = sprintf('%s_%s_%s.csv', 'packages', now()->format('Y-m-d-His'), Str::random(8));
 
         PackagesExport::dispatch(auth()->user(), $filename);
