@@ -16,8 +16,10 @@ class CommuneInput extends Component
     public $communeSelectedId = null;
     public $wilayaId = '';
 
-    public function updatedWilayaId()
+    public function updatedWilayaId(): void
     {
+        $this->communeSelectedId = null;
+        $this->communeQuery = '';
         $this->communeResults = Commune::where('wilaya_id', $this->wilayaId)->take(5)->get();
     }
 
